@@ -2,7 +2,6 @@ const express = require("express");
 const path = require("path");
 const http = require("http");
 const socketIo = require("socket.io");
-const { Socket } = require("engine.io");
 
 const app = express();
 const server = http.createServer(app);
@@ -21,6 +20,10 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     // io.emit used to all clients
     io.emit("message", "A user has left the chat");
+  });
+  socket.on("chatMessage", (msg) => {
+    console.log(msg);
+    io.emit("message", msg);
   });
 });
 
